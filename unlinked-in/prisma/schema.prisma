@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  password     String
+  name         String
+  role         String        @default("APPLICANT")
+  applications Application[]
+  cv           CV?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model CV {
+  id          Int          @id @default(autoincrement())
+  user        User         @relation(fields: [userId], references: [id])
+  userId      Int          @unique
+  education   Education[]
+  experience  Experience[]
+  skills      String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Education {
+  id        Int      @id @default(autoincrement())
+  cv        CV       @relation(fields: [cvId], references: [id])
+  cvId      Int
+  level     String
+  institution String
+  degree    String
+  grade     String
+  fieldOfStudy String
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Experience {
+  id          Int      @id @default(autoincrement())
+  cv          CV       @relation(fields: [cvId], references: [id])
+  cvId        Int
+  company     String
+  position    String
+  description String
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model JobListing {
+  id              Int           @id @default(autoincrement())
+  title           String
+  description     String
+  company         String
+  location        String
+  jobType         String
+  experienceLevel String
+  status          String        @default("OPEN")
+  featured        Boolean       @default(false)
+  applications    Application[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Application {
+  id           Int        @id @default(autoincrement())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       Int
+  jobListing   JobListing @relation(fields: [jobListingId], references: [id])
+  jobListingId Int
+  status       String     @default("PENDING")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
