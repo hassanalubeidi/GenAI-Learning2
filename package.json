@@ -10,7 +10,8 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "init": "prisma db push; node prisma/seed-jobs.js"
   },
   "dependencies": {
     "@prisma/client": "^5.10.2",
@@ -55,8 +56,5 @@
   "ct3aMetadata": {
     "initVersion": "7.30.0"
   },
-  "packageManager": "npm@10.2.4",
-  "engines": {
-    "node": "16.x"
-  }
+  "packageManager": "npm@10.2.4"
 }
