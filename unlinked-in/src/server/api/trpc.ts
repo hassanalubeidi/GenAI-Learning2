@@ -7,19 +7,12 @@
  * need to use are documented accordingly near the end.
  */
 import { initTRPC, TRPCError } from "@trpc/server";
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { db } from "~/server/db";
 
 import * as trpcNext from '@trpc/server/adapters/next';
-import { getAuth, SignedInAuthObject, SignedOutAuthObject } from '@clerk/nextjs/server';
- 
-interface AuthContext {
-  auth: SignedInAuthObject | SignedOutAuthObject;
-}
-
 /**
  * 1. CONTEXT
  *
@@ -40,7 +33,7 @@ type CreateContextOptions = Record<string, never>;
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = async ({ auth }: AuthContext ) => {
+const createInnerTRPCContext = async ({ auth }: any ) => {
   return {
     auth,
     db,
@@ -54,9 +47,7 @@ const createInnerTRPCContext = async ({ auth }: AuthContext ) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = (_opts: trpcNext.CreateNextContextOptions) => {
-  return createInnerTRPCContext({
-     auth: getAuth(_opts.req)
-  });
+  return createInnerTRPCContext({});
 };
 
 /**
