@@ -3,6 +3,7 @@ import { completeAndParseJSON } from "./finishJSON";
 
 export const openai = new OpenAI({
   organization: "org-pGoOxfwv66fzphnuMlcfljIl",
+  apiKey: "sk-proj-DIRTH5Yoeq6XHXS2nJXlT3BlbkFJ1JQnMnI3FFYNPIaUaIJj",
   dangerouslyAllowBrowser: true,
 });
 
