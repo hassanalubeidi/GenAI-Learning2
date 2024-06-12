@@ -28,7 +28,8 @@ export function JobDetails() {
   const router = useRouter()
   const applyNow = (e: any) => {
     e.preventDefault()
-    router.push('/jobs/1/apply')
+    const jobId = parseInt(router.query.id as string)
+    router.push(`/jobs/${jobId}/apply`)
   }
 
   const jobId = parseInt(router.query.id as string)

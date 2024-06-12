@@ -24,6 +24,8 @@ model User {
 
 model CV {
   id          Int          @id @default(autoincrement())
+  application Application? @relation(fields: [applicationId], references: [id])
+  applicationId Int?
   user        User         @relation(fields: [userId], references: [id])
   userId      Int          @unique
   education   Education[]
@@ -82,6 +84,7 @@ model Application {
   userId       Int
   jobListing   JobListing @relation(fields: [jobListingId], references: [id])
   jobListingId Int
+  cv           CV[]
   status       String     @default("PENDING")
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt

@@ -56,7 +56,7 @@ export const jobListingRouter = createTRPCRouter({
                 }
             })
 
-            if(recommended.length < 3) {
+            if(recommended && recommended.length < 3) {
                 // fill up with randomly selected jobs until we have 3
                 const randomJobs = await ctx.db.jobListing.findMany().then(jobs => {
                     return jobs.sort(() => Math.random() - 0.5).slice(0, 3 - recommended.length)
